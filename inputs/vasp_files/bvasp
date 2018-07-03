@@ -1,0 +1,19 @@
+#!/bin/csh
+#BSUB -n 4
+#BSUB -q santiso 
+#BSUB -o o.%J
+#BSUB -e e.%J
+#BSUB -R "select[hc || oc || tc || twc] span[hosts=1]"
+#BSUB -u mjritz@ncsu.du
+#BSUB -W 120:00
+#BSUB -J WF6_silica 
+
+source /usr/local/apps/mpich3/centos7/intelmpi2017.csh 
+setenv nproc `echo $LSB_MCPU_HOSTS | cut -d " " -f2`
+set path = (/usr/local/apps/vasp.5.4.1.05Feb16/vasp.5.4.1/bin/vasp_std $path)
+
+setenv nproc `echo $LSB_MCPU_HOSTS | cut -d " " -f2` 
+echo $nproc                                                                                              
+mpirun -n $nproc /usr/local/apps/vasp.5.4.1.05Feb16/vasp.5.4.1/bin/vasp_std  > job.out 
+
+
